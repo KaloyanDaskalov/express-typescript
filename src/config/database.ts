@@ -1,25 +1,39 @@
 import * as mysql from 'mysql2/promise'
-import { Config } from './index.js'
+import { Config } from './env.js'
 
-// Connections
-export default async ({HOST, USER,PASSWORD, DATABASE}: Config): Promise<mysql.Connection> => {
-    const connection = await mysql.createConnection({
-        host: HOST,
-        user: USER,
-        password: PASSWORD,
-        database: DATABASE
-    });
+class DatabaseInstance {
 
-    return connection;
-    // connection.connect()
-    //     .then(() => connection.query<mysql.RowDataPacket[]>('SELECT * FROM EMPLOYEE'))
-    //     .then(([rows, fields]) => {
-    //         console.table(rows);
-    //     });
+    private static instance:DatabaseInstance = new DatabaseInstance()
+    private pool!:mysql.Pool
 
-    // connection.connect()
-    //     .then(() => connection.execute<mysql.RowDataPacket[]>('SELECT 1 + 1 AS solution'))
-    //     .then(([rows, fields]) => {
-    //         console.log('The solution is: ', rows[0]['solution']);
-    //     });
+    constructor() {
+        if(DatabaseInstance.instance){
+            throw new Error("Error: Instantiation failed: Use SingletonClass.getInstance() instead of new.");
+        }
+        DatabaseInstance.instance = this;
+    }
+
+    public static getInstance():DatabaseInstance {
+        return DatabaseInstance.instance;
+    }
+
+    public connection({HOST, USER,PASSWORD, DATABASE}: Config) {
+        this.pool = mysql.createPool({
+            host: HOST,
+            user: USER,
+            password: PASSWORD,
+            database: DATABASE,
+            waitForConnections: true,
+            connectionLimit: 10,
+            queueLimit: 0
+        })
+
+        Object.freeze(DatabaseInstance.instance)
+    }
+
+    public query (sql:string) {
+        return this.pool.execute<mysql.RowDataPacket[]>(sql)
+    }
 }
+
+export default DatabaseInstance.getInstance()
