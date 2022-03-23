@@ -1,5 +1,5 @@
 import * as mysql from 'mysql2/promise'
-import { Config } from './env.js'
+import { Config } from '../ts/interfaces/env.js'
 
 class DatabaseInstance {
 

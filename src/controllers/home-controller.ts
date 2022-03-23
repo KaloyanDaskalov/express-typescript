@@ -1,27 +1,49 @@
 import express, {Request, Response} from 'express'
 import db from '../config/database.js'
-import asyncMiddleware from '../middlewares/async-middleware.js'
+
+import { DutyEventList } from '../ts/interfaces/duty-event.js'
 
 const router = express.Router();
 const query = `
-SELECT 
-    s.first_name as fName, 
-    s.middle_name as mName,
-    s.last_name as lName,
-    s.user_position as position,
-    d.event_day as day,
-    d.duty_one as dOne,
-    d.duty_two as dTwo
+SELECT
+    s.user_id AS id,
+    CONCAT(s.first_name,' ' ,s.middle_name,' ' ,s.last_name) AS name,
+    s.user_position AS position,
+    DAY(d.event_day) AS day,
+    d.duty_one AS dOne,
+	d.duty_two AS dTwo
 FROM users s
-JOIN duty_events d 
-ON s.user_id = d.user_id
+LEFT JOIN duty_events d
+ON s.user_id = d.user_id;
 `
 
-router.get('/', asyncMiddleware(async (req :Request, res:Response) => {
+router.get('/', async (req :Request, res:Response) => {
     db.query(query)
         .then(([rows, fields]) => {
-            res.status(200).json(rows)
+            const data:DutyEventList = {}
+            for (const i of rows) {
+                if(!data.hasOwnProperty(i.id)) {
+                    data[i.id] = {
+                        name: i.name,
+                        position: i.position,
+                        duties: i.day ? 
+                            [{
+                            date: i.day,
+                            dutyOne: i.dOne,
+                            dutyTwo: i.dTwo
+                            }]
+                            : []
+                    }
+                } else {
+                    data[i.id].duties.push({
+                        date: i.day,
+                        dutyOne: i.dOne,
+                        dutyTwo: i.dTwo
+                })
+                }
+            }
+            res.status(200).json(data)
         })
-}))
+})
 
 export default router
