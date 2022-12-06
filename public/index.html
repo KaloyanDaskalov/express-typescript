@@ -4,9 +4,55 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="static/style.css" />
+    <link rel="shortcut icon" href="static/favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Candal|Chewy&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+    <script type="application/javascript" src="static/script.js"></script>
+    <title>App</title>
   </head>
   <body>
-    <h1>static folder</h1>
+    <!-- <header class="header">
+      <nav>
+        <ul class="navigation">
+          <li><a class="nav-link" href="/">Simple</a></li>
+          <li><a class="nav-link" href="/">Complex</a></li>
+        </ul>
+      </nav>
+    </header> -->
+    <div class="todo-container">
+      <a href="/" class="home"><i class="fas fa-home"></i></a>
+      <h1>To-Do List</h1>
+      <div class="todo">
+        <form action="/" method="POST" class="complex-form">
+          {}
+        </form>
+        <form action="/" method="GET" class="search-form">
+          <h3 class="form-header">Search</h3>
+          <div class="form-container">
+            <label for="type">ToDo type</label>
+            <select name="type" id="type">
+              <option value="simple" selected>Simple</option>
+              <option value="complex">Complex</option>
+            </select>
+            <label for="status">ToDo status</label>
+            <select name="status" id="status">
+              <option value="all" selected>All</option>
+              <option value="done" >Done</option>
+              <option value="todo">To Do</option>
+            </select>
+          </div>
+          <button class="complex-btn" type="submit">SEARCH</button>
+        </form>
+      {{}}
+    </div>
   </body>
 </html>
