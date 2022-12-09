@@ -20,20 +20,21 @@
     <title>App</title>
   </head>
   <body>
-    <!-- <header class="header">
-      <nav>
-        <ul class="navigation">
-          <li><a class="nav-link" href="/">Simple</a></li>
-          <li><a class="nav-link" href="/">Complex</a></li>
-        </ul>
-      </nav>
-    </header> -->
     <div class="todo-container">
       <a href="/" class="home"><i class="fas fa-home"></i></a>
       <h1>To-Do List</h1>
       <div class="todo">
         <form action="/" method="POST" class="complex-form">
-          {}
+          <div class="form-control">
+            <label class="complex-label" for="todo">Add your task below</label>
+            <input class="complex-input" type="text" id="todo" name="message" placeholder="Buy Egg">
+          </div>
+          <div class="form-control">
+            <span>Status</span>
+              <input type="checkbox" id="check1" class="toggle" name="status" />
+              <label for="check1"></label>
+          </div>
+          <button class="complex-btn" type="submit"><i class="fas fa-plus"></i> Add</button>
         </form>
         <form action="/" method="GET" class="search-form">
           <h3 class="form-header">Search</h3>
