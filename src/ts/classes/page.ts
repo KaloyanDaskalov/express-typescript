@@ -3,7 +3,7 @@ import fs from "fs";
 
 export class Page {
   private static instance: Page = new Page();
-  protected indexPage: string = "Something went wrong";
+  private indexPage: string = "Something went wrong";
 
   private constructor() {
     if (Page.instance) {
